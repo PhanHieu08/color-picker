@@ -1,6 +1,11 @@
 pipeline {
   agent any
 
+  environment {
+        DOCKER_REGISTRY_USERNAME = credentials('DOCKER_REGISTRY_USERNAME')
+        DOCKER_REGISTRY_PASSWORD = credentials('DOCKER_REGISTRY_PASSWORD')
+  }
+
   stages {
     stage ('Install dependencies') {
       steps {
@@ -48,10 +53,17 @@ pipeline {
           unstash 'build'
           unstash 'docker_folder'
         }
+
         sh '''
           ls -al
           echo "Starting to build docker image"
-          docker build -t pick-color:v1 -f docker/Dockerfile .
+          docker build -t phanhieu0825/pick-color:v1.${BUILD_NUMBER} -f docker/Dockerfile .
+        '''
+
+        sh '''
+            echo "Starting to push docker image"
+            echo ${DOCKER_REGISTRY_PASSWORD} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin
+            docker push "phanhieu0825/pick-color:v1.${BUILD_NUMBER}"
         '''
       }
     }

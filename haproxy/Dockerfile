@@ -4,9 +4,9 @@ USER root
 
 RUN apk add --no-cache keepalived
 
-USER haproxy
-
 RUN mkdir -p /etc/keepalived
+
+USER haproxy
 
 COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
 

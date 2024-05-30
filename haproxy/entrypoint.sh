@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# ... other startup tasks (if needed)
 haproxy -f /usr/local/etc/haproxy/haproxy.cfg &
 
 # Check if configuration file is mounted

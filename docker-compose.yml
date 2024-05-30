@@ -1,0 +1,30 @@
+name: node
+
+services:
+  app:
+    image: node-app
+    network_mode: bridge
+    deploy:
+      mode: replicated    
+      replicas: 2
+
+  master-lb:
+    image: my-haproxy
+    depends_on:
+      - app
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./haproxy/master:/etc/keepalived
+  
+  backup-lb:
+    image: my-haproxy
+    network_mode: host
+    depends_on:
+      - app
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./haproxy/backup:/etc/keepalived
+

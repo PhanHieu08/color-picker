@@ -1,10 +1,8 @@
-FROM haproxy:latest
+FROM haproxy:2.9-alpine
 
 USER root
 
-COPY sources.list /etc/apt/sources.list
-
-RUN apt-get update && apt-get install -y keepalived
+RUN apk add --no-cache keepalived
 
 RUN mkdir -p /etc/keepalived
 

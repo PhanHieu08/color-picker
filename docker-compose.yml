@@ -9,7 +9,7 @@ services:
       replicas: 2
 
   master-lb:
-    image: my-haproxy
+    image: my-haproxy:alpine
     depends_on:
       - app
     network_mode: host
@@ -19,7 +19,7 @@ services:
       - ./haproxy/master:/etc/keepalived
   
   backup-lb:
-    image: my-haproxy
+    image: my-haproxy:alpine
     network_mode: host
     depends_on:
       - app

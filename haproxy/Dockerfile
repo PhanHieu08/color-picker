@@ -4,7 +4,10 @@ USER root
 
 COPY sources.list /etc/apt/sources.list
 
-RUN apt-get update && apt-get install -y keepalived
+# cache
+RUN mkdir -p /var/cache/apt && \
+	--mount=type=cache,target=/var/cache/apt \ 
+    	apt-get update && apt-get install -y keepalived
 
 RUN mkdir -p /etc/keepalived
 
